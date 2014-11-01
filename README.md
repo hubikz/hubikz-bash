@@ -1,5 +1,8 @@
-My custom bash prompt
+Beautiful bash prompt
 =====================
+* Colored ls (list directory contents);
+* Git completion;
+* Prompt with colors for Git.
 
 Installation
 ------------
@@ -8,5 +11,8 @@ Installation
     if [ ! -f .bash_profile ]; then
       touch .bash_profile
     fi
-    echo -e "\n#hubikz bash promot settings\n. ~/hubikz-bash/.bash_profile\n" >> .bash_profile
+    echo -e "\n#hubikz bash prompt settings\n. ~/hubikz-bash/.bash_profile\n" >> .bash_profile
+    
+I modify this [Jake Romer](https://coderwall.com/p/pn8f0g) script
+
 

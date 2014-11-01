@@ -1,23 +1,18 @@
-#--git--
+##git
 source ~/hubikz-bash/.bash_colors
 source ~/hubikz-bash/.bash_git
-
 # bash completion
 # brew install git bash-completion
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
 
-#--ls colors
+##ls colors
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 alias ls='ls -GFh'
 
-#--promt--
-#PS1="\[$WHITE\]\n[\W]"          # basename of pwd
-#PS1+="\[\$(git_color)\]"        # colors git status
-#PS1+="\$(git_branch)"           # prints current branch
-#PS1+="\[$BLUE\]\$\[$RESET\] "   # '#' for root, else '$'
+##promt
 PS1="\u@\h \W"
 # prompt for git
 PS1+="\[\$(git_color)\]"
