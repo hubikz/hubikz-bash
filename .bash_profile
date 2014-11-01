@@ -1,6 +1,6 @@
 #--git--
-source bash/.bash_colors
-source bash/.bash_git
+source .bash_colors
+source .bash_git
 
 # bash completion
 # brew install git bash-completion
