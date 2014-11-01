@@ -8,11 +8,6 @@ if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
 
-#--docker configuration--
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=/Users/hubikz/.boot2docker/certs/boot2docker-vm
-export DOCKER_TLS_VERIFY=1
-
 #--ls colors
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
