@@ -1,30 +1,47 @@
 #!/bin/bash
 
-function git_color {
-  local git_status="$(git status 2> /dev/null)"
+function parse_git_branch {
+  git rev-parse --git-dir &> /dev/null
+  git_status="$(git status 2> /dev/null)"
+  branch_pattern="^On branch ([^${IFS}]*)"
+  detached_branch_pattern="# Not currently on any branch"
+  remote_pattern="Your branch is (.*) of"
+  diverge_pattern="# Your branch and (.*) have diverged"
+  if [[ ${git_status}} =~ "Changed but not updated" ]]; then
+    state="${RED}⚡"
+  fi
 
-  if [[ ! $git_status =~ "working directory clean" ]]; then
-    echo -e $COLOR_RED
-  elif [[ $git_status =~ "Your branch is ahead of" ]]; then
-    echo -e $COLOR_YELLOW
-  elif [[ $git_status =~ "nothing to commit" ]]; then
-    echo -e $COLOR_GREEN
+  # add an else if or two here if you want to get more specific
+  if [[ ${git_status} =~ ${remote_pattern} ]]; then
+    if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
+      remote="${YELLOW}↑"
+    else
+      remote="${YELLOW}↓"
+    fi
+  fi
+  if [[ ${git_status} =~ ${diverge_pattern} ]]; then
+    remote="${YELLOW}↕"
+  fi
+
+  if [[ ${git_status} =~ ${branch_pattern} ]]; then
+    branch=${BASH_REMATCH[1]}
+  elif [[ ${git_status} =~ ${detached_branch_pattern} ]]; then
+    branch="${YELLOW}NO BRANCH"
+  fi
+
+  if [[ ${#state} -gt "0" || ${#remote} -gt "0" ]]; then
+    s=" "
+  fi
+  echo " ${branch}${s}${remote}${state}"
+}
+function prompt_func() {
+  git rev-parse --git-dir > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    prompt="${TITLEBAR}${BLUE}[${RED}\W${GREEN}$(parse_git_branch)${BLUE}]${COLOR_NONE} "
+    PS1="${prompt}$ "
   else
-    echo -e $COLOR_OCHRE
+    PS1=$PSAVE
   fi
 }
-
-function git_branch {
-  local git_status="$(git status 2> /dev/null)"
-  local on_branch="On branch ([^${IFS}]*)"
-  local on_commit="HEAD detached at ([^${IFS}]*)"
-
-  if [[ $git_status =~ $on_branch ]]; then
-    local branch=${BASH_REMATCH[1]}
-    echo "($branch)"
-  elif [[ $git_status =~ $on_commit ]]; then
-    local commit=${BASH_REMATCH[1]}
-    echo "($commit)"
-  fi
-}
-
+export PSAVE=$PS1
+PROMPT_COMMAND=prompt_func

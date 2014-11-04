@@ -12,7 +12,5 @@ Installation
       touch .bash_profile
     fi
     echo -e "\n#hubikz bash prompt settings\n. ~/hubikz-bash/.bash_profile\n" >> .bash_profile
-    
-I modify this [Jake Romer](https://coderwall.com/p/pn8f0g) script
 
 
